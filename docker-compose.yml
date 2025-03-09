@@ -19,7 +19,7 @@ services:
       - keycloak-network
 
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0.1 # Check for the latest version
+    image: quay.io/keycloak/keycloak:26.1.2
     container_name: keycloak
     command: ['start-dev'] # Use 'start' instead of 'start-dev' for production
     environment:
@@ -40,8 +40,20 @@ services:
         condition: service_healthy
     volumes:
       - keycloak_data:/opt/keycloak/data
+      - ./themes:/opt/keycloak/themes
       # Uncomment if you have certificates for HTTPS
       # - ./certs:/opt/keycloak/conf
+    networks:
+      - keycloak-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '5050:80'
     networks:
       - keycloak-network
 
