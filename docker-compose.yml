@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -d keycloak -U keycloak']
+      test: "pg_isready -d keycloak -U keycloak"
       interval: 10s
       timeout: 5s
       retries: 5
@@ -21,7 +21,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.1.2
     container_name: keycloak
-    command: ['start-dev'] # Use 'start' instead of 'start-dev' for production
+    command: ["start-dev"] # Use 'start' instead of 'start-dev' for production
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
@@ -59,10 +59,8 @@ services:
 
 volumes:
   postgres_data:
-    name: keycloak_postgres_data
   keycloak_data:
-    name: keycloak_data
 
 networks:
   keycloak-network:
-    name: keycloak-network
+    driver: bridge
